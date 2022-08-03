@@ -1,0 +1,182 @@
+ {% extends 'base.html.twig' %}
+ 
+{% block body %}
+    <div class="container-fluid">
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success mt-4 mb-b">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <h1>Tableau comparatif des conditions financieres des bailleurs de fonds</h1>
+    <h3>dernier mis à jours:</h3>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+    Ajouter
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Nouveau bailleur</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                <label for="">bailleurs de fonds</label>
+                {{ form_widget(form.nom)}}
+            </div>
+            <div class="form-group">
+                <label for="">secteurs d'intervation</label>
+                {{ form_widget(form.secteurIntervation)}}
+            </div>
+            <div class="form-group">
+                <label for="">type de financement</label>
+                {{ form_widget(form.typeFinancement)}}
+            </div>
+            <div class="form-group">
+                <label for="">part finance par le bailleur de fonds</label>
+                {{ form_widget(form.partFinancer)}}
+            </div>
+            <div class="form-group">
+                <label for="">maturite de la facilite</label>
+                {{ form_widget(form.maturite)}}
+            </div>
+            <div class="form-group">
+                <label for="">periode de grace de la facilite</label>
+                {{ form_widget(form.periodeGrace)}}
+            </div>
+            <div class="form-group">
+                <label for="">taux d'interet</label>
+                {{ form_widget(form.tauxInteret)}}
+            </div>
+            <div class="form-group">
+                <label for="">diffrentiel d'interet</label>
+                {{ form_widget(form.differencielInteret)}}
+            </div>
+            <div class="form-group">
+                <label for="">frais de gestion</label>
+                {{ form_widget(form.fraisGestion)}}
+            </div>
+            <div class="form-group">
+                <label for="">commision d'engagement</label>
+                {{ form_widget(form.commissionEngagement)}}
+            </div>
+            <div class="form-group">
+                <label for="">commission de service</label>
+                {{ form_widget(form.commissionService)}}
+            </div>
+            <div class="form-group">
+                <label for="">commission initiale</label>
+                {{ form_widget(form.commissionInitiale)}}
+            </div>
+            <div class="form-group">
+                <label for="">commission d'arrangement</label>
+                {{ form_widget(form.commissionArragement)}}
+            </div>
+            <div class="form-group">
+                <label for="">frais d'exposition</label>
+                {{ form_widget(form.fraisExposition)}}
+            </div>
+            <div class="form-group">
+                <label for="">commission d'agent</label>
+                {{ form_widget(form.commissionAgent)}}
+            </div>
+            <div class="form-group">
+                <label for="">maturite de la lettre de credit</label>
+                {{ form_widget(form.maturiteLettreCredit)}}
+            </div>
+            <div class="form-group">
+                <label for="">frais lies a la mise en place de la lettre de credit</label>
+                {{ form_widget(form.fraisRefLettreCredit)}}
+            </div>
+            <div class="form-group">
+                <label for="">frais et debours</label>
+                {{ form_widget(form.fraisRebours)}}
+            </div>
+            <div class="form-group">
+                <label for="">prime d'assurance / frais de garantie</label>
+                {{ form_widget(form.primeAssuranceFraisGarantie)}}
+            </div>
+            <div class="form-group">
+                <label for="">prime d'attenuation du risque de credit</label>
+                {{ form_widget(form.primeAttenuationRisqueCredit)}}
+            </div>
+        {{ form_end(form) }}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">fermer</button>
+            <button type="button" class="btn btn-primary">enregistrer</button>
+        </div>
+        </div>
+    </div>
+    </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                <th scope="col">Bailleurs de fonds</th>
+                <th scope="col">Secteur d'intervation</th>
+                <th scope="col">Type de financement</th>
+                <th scope="col">Part financé par le bailleur de fonds</th>
+                <th scope="col">Maturite de financement</th>
+                <th scope="col">Période de grace de la facilite</th>
+                <th scope="col">Taux d'interet</th>
+                <th scope="col">Differenciel d'interet</th>
+                <th scope="col">Frais de gestion</th>
+                <th scope="col">Commission d'engagement</th>
+                <th scope="col">Commission de service</th>
+                <th scope="col">Commission initiale</th>
+                <th scope="col">Commission d'arragement</th>
+                <th scope="col">Frais d'exposition</th>
+                <th scope="col">Commission d'agent</th>
+                <th scope="col">Maturite de la lettre de crédit</th>
+                <th scope="col">Frais lies a la mise en place de la lettre de crédit</th>
+                <th scope="col">Frais liés au refinancement de la lettre de crédit</th>
+                <th scope="col">Frais et debours</th>
+                <th scope="col">Prime d'assurance/ Frais de garantie</th>
+                <th scope="col">Prime d'attenuation du risque de crédit</th>
+                <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for bailleur in bailleurs %}
+                <tr>
+                    <th>{{bailleur.nom}}</th>
+                    <td>{{bailleur.secteurIntervation}}</td>
+                    <td>{{bailleur.typeFinancement}}</td>
+                    <td>{{bailleur.partFinancer}}</td>
+                    <td>{{bailleur.maturite}}</td>
+                    <td>{{bailleur.periodeGrace}}</td>
+                    <td>{{bailleur.tauxInteret}}</td>
+                    <td>{{bailleur.differencielInteret}}</td>
+                    <td>{{bailleur.fraisGestion}}</td>
+                    <td>{{bailleur.commissionEngagement}}</td>
+                    <td>{{bailleur.commissionService}}</td>
+                    <td>{{bailleur.commissionInitiale}}</td>
+                    <td>{{bailleur.commissionArragement}}</td>
+                    <td>{{bailleur.fraisExposition}}</td>
+                    <td>{{bailleur.commissionAgent}}</td>
+                    <td>{{bailleur.maturiteLettreCredit}}</td>
+                    <td>{{bailleur.frais_lies_mep_lettre_credit}}</td>
+                    <td>{{bailleur.fraisRefLettreCredit}}</td>
+                    <td>{{bailleur.fraisRebours}}</td>
+                    <td>{{bailleur.primeAssuranceFraisGarantie}}</td>
+                    <td>{{bailleur.primeAttenuationRisqueCredit}}</td>
+                    <td>
+                        <a class="btn btn-warning" href="{{ path('app_bailleur_update',{'id': bailleur.id }) }}">Update</a>
+                        <a class="btn btn-danger" href="{{ path('bailleur_delete',{'id': bailleur.id }) }}">Delete</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="22">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}
